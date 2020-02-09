@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 const controllers = require('./controllers/index');
 require('dotenv').config()
@@ -23,9 +23,10 @@ app.engine(
     defaultLayout: 'main',
   })
 );
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
 app.set('port', process.env.PORT || 3000);
 
 

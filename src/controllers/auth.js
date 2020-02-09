@@ -16,7 +16,24 @@ exports.registerPage = (req, res) => {
 // make sure to handle any error that might occured
 exports.addUser = (req, res, err) => {
   
-};
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) {
+      return res.render('register', {
+        activePage: { register: true },
+        error: error.message
+      });
+    }
+
+    addNewUser(username, hash)
+      .then(() => res.redirect('/login'))
+      .catch(() =>
+        res.render('register', {
+          activePage: { register: true },
+          error: error.message
+        })
+      );
+  });
+}
 
 // this function handles the POST /authenticate route
 // it finds the user in our database by his username that he inputed
@@ -25,10 +42,31 @@ exports.addUser = (req, res, err) => {
 // make sure to look at home.hbs file to be able to modify the home page when user is logged in
 // also handle all possible errors that might occured by sending a message back to the cleint
 exports.authenticate = (req, res) => {
+  findByUsername(req.body.username)
+    .then(user => {
+      bcrypt.compare(req.body.password, user.password, function(err, result) {
+        if (!result) {
+          return res.render('login', {
+            activePage: { login: true },
+            error: 'Password is incorrect'
+          });
+        }
 
+        res.cookie('access_token', user.username)
+        res.redirect('/');
+      });
+    })
+    .catch(() => {
+      res.render('login', {
+        activePage: { login: true },
+        error: e.message
+      });
+    });
 };
 
 
 exports.logout = (req, res) => {
-  
+  res.clearCookie('access_token')
+
+  res.redirect('/')
 }
