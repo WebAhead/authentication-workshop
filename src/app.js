@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
 const controllers = require('./controllers/index');
-require('dotenv').config();
 
 const app = express();
 
