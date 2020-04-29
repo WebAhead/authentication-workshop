@@ -1,5 +1,7 @@
-// import middleware here
+const authCheck = require('./authCheck');
+const logoutsTracker = require('./logoutsTracker')
 
 module.exports = {
-    // exports middleware here
-}
+  authCheck,
+  logoutsTracker
+};
