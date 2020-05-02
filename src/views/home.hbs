@@ -1,7 +1,12 @@
 <section class="main__container--limited-width">
   {{#if signedIn}}
     <h1 class="main__title">Hello there, {{username}}</h1>
+    <a href="/logout">Logout</a>
   {{else}}
     <h1 class="main__title">Welcome to Asgard's gates.</h1>
+  {{/if}}
+
+  {{#if error}} 
+    <span style="color: red;">{{error}}</span>
   {{/if}}
 </section>
