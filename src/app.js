@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
 const controllers = require('./controllers/index');
-require('dotenv').config();
 
 const app = express();
 
@@ -25,7 +24,6 @@ app.engine(
 );
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// cookie-parser here
 app.set('port', process.env.PORT || 3000);
 
 if (process.env.NODE_ENV === 'production') {
