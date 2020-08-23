@@ -40,14 +40,8 @@ const userInformation = {
 
 const cookieValue = JSON.stringify(userInformation);
 
-// Nodejs
-res.setHeader(
-  'Set-Cookie',
-  `data=${cookieValue}; HttpOnly; Secure`
-);
-
 // Express
- res.cookie('data', cookieValue, {HttpOnly: true, secure: true});
+ res.cookie('data', cookieValue);
 ```
 
 Great! We now have a cookie that we can add as much information to as we need, but we still have the same **big security problem**: This cookie can be very easily tampered with. (For example, by opening up the DevTools 'Application' tab and setting `admin` to `true`)
@@ -107,42 +101,6 @@ The overall structure of a JWT is:
 
 Here is an example of a JWT:
 > eyJhbGciOiJIUzI1NiJ9.aGtqa2hr.IhQxjhZL2hMAR2MDKTD1hppR8KEO9cvEgsE_esJGHUA
-
-
-So to build it in Node.js:
-```javascript
-
-const base64Encode = str =>
-  Buffer.from(str).toString('base64');
-
-const base64Decode = str =>
-  Buffer.from(str, 'base64').toString();
-
-// Usually two parts:
-const header = {
-  alg: 'SHA256', // The hashing algorithm to be used
-  typ: 'JWT' // The token 'type'
-};
-
-// Your 'claims'
-const payload = {
-  userId: 99,
-  username: 'ada'
-};
-
-const encodedHeader = base64Encode(JSON.stringify(header));
-const encodedPayload = base64Encode(JSON.stringify(payload));
-
-const signature = hashFunction(`${encodedHeader}.${encodedPayload}`);
-
-// 'Udcna0ETPpRw5m3po3COjicb_cGJvgtnoLZyLnftaaI'
-
-const jwt = `${encodedHeader}.${encodedPayload}.${signature}`;
-
-// Result!
-// 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvayI6dHJ1ZSwiaWF0IjoxNTAxOTY2MjY5fQ.Udcna0ETPpRw5m3po3COjicb_cGJvgtnoLZyLnftaaI'
-```
-
 
 So to build it in Express:
 
